@@ -1,0 +1,83 @@
+Enable password
+==================
+enable secret 5 $1$mERr$WvpW0n5HghRrqnrwXCUUl. [cisco12345]
+
+User creation
+===============
+username admin01 secret 5 $1$mERr$WvpW0n5HghRrqnrwXCUUl. [cisco12345]
+
+Cisco License activation
+==========================
+license udi pid CISCO2901/K9 sn FTX1524PQV3-
+license boot module c2900 technology-package securityk9
+
+Domain Configuration
+=======================
+ip domain-name workshop.com
+
+Policy Object ceation
+======================
+class-map type inspect match-any INSIDE_PROTOCOLS
+ match protocol tcp
+ match protocol udp
+ match protocol icmp
+class-map type inspect match-any CONFROOM_PROTOCOLS
+ match protocol http
+ match protocol https
+ match protocol dns
+ 
+
+Policy object assigning
+=========================
+policy-map type inspect INSIDE_TO_INTERNET
+ class type inspect INSIDE_PROTOCOLS
+  inspect
+
+policy-map type inspect CONFROOM_TO_INTERNET
+ class type inspect CONFROOM_PROTOCOLS
+  inspect
+
+
+Policy Zone defining
+=====================
+zone security INTERNET
+zone security INSIDE
+zone security CONFROOM
+zone-pair security INSIDE_TO_INTERNET source INSIDE destination INTERNET
+ service-policy type inspect INSIDE_TO_INTERNET
+zone-pair security CONFROOM_TO_INTERNET source CONFROOM destination INTERNET
+ service-policy type inspect CONFROOM_TO_INTERNET
+
+
+IP Assigning
+=======================
+interface GigabitEthernet0/0
+ ip address 192.168.33.1 255.255.255.0
+ zone-member security CONFROOM
+ duplex auto
+ speed auto
+
+interface GigabitEthernet0/1
+ ip address 192.168.3.1 255.255.255.0
+ zone-member security INSIDE
+ duplex auto
+ speed auto
+ 
+interface Serial0/3/0
+ ip address 10.2.2.1 255.255.255.252
+ zone-member security INTERNET
+
+
+Routing configurations [Static]
+================================
+ip classless
+ip route 0.0.0.0 0.0.0.0 10.2.2.2 
+
+
+Line VTY Configuration
+=========================
+line vty 0 4
+ exec-timeout 5 0
+ logging synchronous
+ login local
+ transport input ssh

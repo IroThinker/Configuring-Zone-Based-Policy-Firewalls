@@ -1,0 +1,15 @@
+Inteface IP Assigning
+=======================
+interface Serial0/3/0
+ ip address 10.1.1.2 255.255.255.252
+
+interface Serial0/3/1
+ ip address 10.2.2.2 255.255.255.252
+ clock rate 2000000
+
+
+Routing configurations [Static]
+================================
+ip classless
+ip route 0.0.0.0 0.0.0.0 10.2.2.1 
+ip route 0.0.0.0 0.0.0.0 10.1.1.1 
