@@ -10,4 +10,5 @@ The security policy to be enforced by R3 when it is acting as a firewall dictate
 •	Returning Internet traffic (return packets coming from the Internet into the R3 site, in response to requests originating from any of the R3 networks) should be allowed.
 •	Computers in the R3 internal network are considered trusted and are allowed to initiate any type traffic (TCP, UDP or ICMP based traffic).
 •	Computers in the R3 conference room network are considered untrusted and are allowed to initiate only web traffic (HTTP or HTTPS) to the Internet.
-•	No traffic is allowed between the internal network and the conference room network. There is no guarantee regarding the condition of guest computers in the conference room network. •	Such machines could be infected with malware and might attempt to send out spam or other malicious traffic.
+•	No traffic is allowed between the internal network and the conference room network. There is no guarantee regarding the condition of guest computers in the conference room network. •	•
+• Such machines could be infected with malware and might attempt to send out spam or other malicious traffic.
